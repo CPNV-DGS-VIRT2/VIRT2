@@ -363,76 +363,51 @@ python3 wrapper-virt2.py
 ```python
 # Wrapper script made in the VIRT2 module - CPNV
 # Goal : Manage Proxmox LXC Containers without using the Web Interface
+# Version 2.0
 # Author : David Varoso Gomes - SI-T1b
 
 import os
 import re
 
-attacker = 102 #Container Kali
-pentest = 103 #Container Pentester Lab
+attacker = 102 # Template Attacker
+pentest = 103 # Template Pentester Lab
+# Index for cloned containers
+index_attacker = 201 # Kali starts at 201
+index_pentest = 301  # Pentest starts at 301
+# Asking what the user wants to do with an input
+user_option = input("Enter an option (1. create, 2. start, 3. stop, 4. destroy, 5. Show IPs): ") 
+# Max 1-3 because of the proxmox configuration, the script can scale as high as you want
+user_number = input("Enter the number of instances\n Not needed for the 5th option, just use 0 \n Chose : 1-3 : ") 
+counter = int(user_number)
 
-#Index for cloned containers -> Kali starts at 201 ; Pentest starts at 301
-## Max 3 instances for the Proxmox config we have, could be augemented if needed
-
-def perform_action(option, number ,attacker ,pentest):
+#Main function
+def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,counter):
     if option == "1":
-        print(f"Creating {number} instances ...")
+        print(f" >> Creating {number} instances << ")
         # Perform create action here
-        if number == "1":
-            #Create 201 only
-            for id_attacker in range(201, 202):
-                print(f'Creating container {id_attacker}')
-                os.system(f'pct clone {attacker} {id_attacker}')
-            #Create 301 only
-            for id_pentest in range(301, 302):
-                print(f'Creating container {id_pentest}')
-                os.system(f'pct clone {pentest} {id_pentest}')
 
-        if number == "2":
-            #Create 201 and 202
-            for id_attacker in range(201, 203):
-                print(f'! ! ! Creating container {id_attacker} ! ! !')
+        for id_attacker in range(index_attacker, index_attacker+int(counter)):
+                print(f' > Creating container {id_attacker} < ')
+                #print (f'pct clone {attacker} {id_attacker}')
                 os.system(f'pct clone {attacker} {id_attacker}')
-            #Create 301 and 302
-            for id_pentest in range(301, 303):
-                print(f'! ! ! Creating container {id_pentest} ! ! !')
-                os.system(f'pct clone {pentest} {id_pentest}')
 
-        if number == "3":
-            #Create 201 to 203
-            for id_attacker in range(201, 204):
-                print(f'! ! ! Creating container {id_attacker} ! ! !')
-                os.system(f'pct clone {attacker} {id_attacker}')
-            #Create 301 to 303
-            for id_pentest in range(301, 304):
-                print(f'! ! ! Creating container {id_pentest} ! ! !')
+        for id_pentest in range(index_pentest, index_pentest+int(counter)):
+                print(f' > Creating container {id_pentest} < ')
+                #print (f'pct clone {pentest} {id_pentest}')
                 os.system(f'pct clone {pentest} {id_pentest}')
 
     elif option == "2":
         print(f"Starting {number} instances ...")
         # Perform start action here
-        if number == "1":
-            for id_attacker in range(201, 202):
-                print(f'Starting container {id_attacker}')
-                os.system(f'pct start {id_attacker}')
-            for id_pentest in range(301, 302):
-                print(f'Starting container {id_pentest}')
-                os.system(f'pct start {id_pentest}')
 
-        if number == "2":
-            for id_attacker in range(201, 203):
+        for id_attacker in range(index_attacker, index_attacker+int(counter)):
                 print(f'Starting container {id_attacker}')
+                #print (f'pct start {id_attacker}')
                 os.system(f'pct start {id_attacker}')
-            for id_pentest in range(301, 303):
-                print(f'Starting container {id_pentest}')
-                os.system(f'pct start {id_pentest}')
 
-        if number == "3":
-            for id_attacker in range(201, 204):
-                print(f'Starting container {id_attacker}')
-                os.system(f'pct start {id_attacker}')
-            for id_pentest in range(301, 304):
-                print(f'Starting container {id_pentest}')
+        for id_pentest in range(index_pentest, index_pentest+int(counter)):
+                print(f'Creating container {id_pentest}')
+                #print (f'pct start {id_pentest}')
                 os.system(f'pct start {id_pentest}')
 
         user_ip = input ("Show IPs ? Y/N : ")
@@ -441,66 +416,50 @@ def perform_action(option, number ,attacker ,pentest):
     elif option == "3":
         print(f"Stopping {number} instances ...")
         # Perform stop action here
-        if number == "1":
-            for id_attacker in range(201, 202):
-                print(f'Stopping container {id_attacker}')
-                os.system(f'pct stop {id_attacker}')
-            for id_pentest in range(301, 302):
-                print(f'Stopping container {id_pentest}')
-                os.system(f'pct stop {id_pentest}')
 
-        if number == "2":
-            for id_attacker in range(201, 203):
+        for id_attacker in range(index_attacker, index_attacker+int(counter)):
                 print(f'Stopping container {id_attacker}')
+                #print (f'pct stop {id_attacker}')
                 os.system(f'pct stop {id_attacker}')
-            for id_pentest in range(301, 303):
+
+        for id_pentest in range(index_pentest, index_pentest+int(counter)):
                 print(f'Stopping container {id_pentest}')
-                os.system(f'pct stop {id_pentest}')
-                
-        if number == "3":
-            for id_attacker in range(201, 204):
-                print(f'Stopping container {id_attacker}')
-                os.system(f'pct stop {id_attacker}')
-            for id_pentest in range(301, 304):
-                print(f'Stopping container {id_pentest}')
+                #print (f'pct stop {id_pentest}')
                 os.system(f'pct stop {id_pentest}')
 
     elif option == "4":
         print(f"Destroying {number} instances ...")
         # Perform destroy action here
-        if number == "1":
-            for id_attacker in range(201, 202):
-                print(f'Destroying container {id_attacker}')
-                os.system(f'pct destroy {id_attacker}')
-            for id_pentest in range(301, 302):
-                print(f'Destroying container {id_pentest}')
-                os.system(f'pct destroy {id_pentest}')
 
-        if number == "2":
-            for id_attacker in range(201, 203):
+        for id_attacker in range(index_attacker, index_attacker+int(counter)):
                 print(f'Destroying container {id_attacker}')
+                #print (f'pct destroy {id_attacker}')
                 os.system(f'pct destroy {id_attacker}')
-            for id_pentest in range(301, 303):
+
+        for id_pentest in range(index_pentest, index_pentest+int(counter)):
                 print(f'Destroying container {id_pentest}')
+                #print (f'pct destroy {id_pentest}')
                 os.system(f'pct destroy {id_pentest}')
                 
-        if number == "3":
-            for id_attacker in range(201, 204):
-                print(f'Destroying container {id_attacker}')
-                os.system(f'pct destroy {id_attacker}')
-            for id_pentest in range(301, 304):
-                print(f'Destroying container {id_pentest}')
-                os.system(f'pct destroy {id_pentest}')
-
+    elif option == "5":
+        # Showing IPs on menu if it didn't work properly on the start
+        print('Loading IPs')
+        print(f"Username : root ; Password : Pa$$w0rd")
+        output = os.popen('lxc-ls -f').read()
+        pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
+        matches = re.findall(pattern, output)
+        for match in matches:
+            container_name, ip_address = match
+            print(f"Name: {container_name}, IP Address: {ip_address}")
+        
     else:
-        print("Invalid option!")
+      print("Invalid option!")
 
-user_option = input("Enter an option (1. create, 2. start, 3. stop, 4. destroy): ")
-user_number = input("Enter the number of instances\n Chose : 1-3 : ")
-
+#Function to show the IPs of the new containers and the login
 def show_ip(ip):
     if ip == "Y":
         print('Loading IPs')
+        print(f"Username : root ; Password : Pa$$w0rd")
         output = os.popen('lxc-ls -f').read()
         pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
         matches = re.findall(pattern, output)
@@ -510,9 +469,9 @@ def show_ip(ip):
     if ip == "N":
         print('Alright sure')
 
-################################################
+#Execution of the main function
+perform_action(user_option,user_number,attacker,pentest,index_attacker,index_pentest,counter)
 
-perform_action(user_option, user_number,attacker ,pentest)
 ```
 
 The script will guide you for most steps, here's a basic tutorial on how to use it.
