@@ -32,6 +32,10 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
                 print(f' > Creating container {id_pentest} < ')
                 #print (f'pct clone {pentest} {id_pentest}')
                 os.system(f'pct clone {pentest} {id_pentest}')
+        
+        # Start after create feature
+        user_option = input (" > Start created containers ? Y/N : ")
+        start_after_create(user_option)
 
     elif option == "2":
         print(f" >> Starting {number} instances ... << ")
@@ -105,6 +109,12 @@ def show_ip(ip):
             print(f"[Name] : {container_name} [IP Address] : {ip_address}")
     if ip == "N":
         print('Alright sure')
+
+def start_after_create(option):
+    if option == "Y":
+      print ('Ok starting containers')
+      if option == "N":
+        print('You can also start them with the option 2 of the menu')
 
 #Execution of the main function
 perform_action(user_option,user_number,attacker,pentest,index_attacker,index_pentest,counter)
