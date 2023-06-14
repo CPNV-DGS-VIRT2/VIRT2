@@ -75,11 +75,13 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
         for id_attacker in range(index_attacker, index_attacker+int(counter)):
                 print(f' > Destroying container {id_attacker} < ')
                 #print (f'pct destroy {id_attacker}')
+                os.system(f'pct stop {id_attacker}')
                 os.system(f'pct destroy {id_attacker}')
 
         for id_pentest in range(index_pentest, index_pentest+int(counter)):
                 print(f' > Destroying container {id_pentest} < ')
                 #print (f'pct destroy {id_pentest}')
+                os.system(f'pct stop {id_pentest}')
                 os.system(f'pct destroy {id_pentest}')
                 
     elif option == "5":
@@ -112,9 +114,19 @@ def show_ip(ip):
 
 def start_after_create(option):
     if option == "Y":
-      print ('Ok starting containers')
+      print (' >> Starting << ')
+      
+      for id_attacker in range(index_attacker, index_attacker+int(counter)):
+        print(f' > Starting container {id_attacker} < ')
+        #print (f'pct start {id_attacker}')
+        os.system(f'pct start {id_attacker}')
+      for id_pentest in range(index_pentest, index_pentest+int(counter)):
+        print(f' > Starting container {id_pentest} < ')
+        #print (f'pct start {id_pentest}')
+        os.system(f'pct start {id_pentest}')
+      
       if option == "N":
-        print('You can also start them with the option 2 of the menu')
+        print(' > You can also start them with the option 2 of the menu < ')
 
 #Execution of the main function
 perform_action(user_option,user_number,attacker,pentest,index_attacker,index_pentest,counter)

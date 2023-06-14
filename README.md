@@ -395,62 +395,68 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
                 print(f' > Creating container {id_pentest} < ')
                 #print (f'pct clone {pentest} {id_pentest}')
                 os.system(f'pct clone {pentest} {id_pentest}')
+        
+        # Start after create feature
+        user_option = input (" > Start created containers ? Y/N : ")
+        start_after_create(user_option)
 
     elif option == "2":
-        print(f"Starting {number} instances ...")
+        print(f" >> Starting {number} instances ... << ")
         # Perform start action here
 
         for id_attacker in range(index_attacker, index_attacker+int(counter)):
-                print(f'Starting container {id_attacker}')
+                print(f' > Starting container {id_attacker} < ')
                 #print (f'pct start {id_attacker}')
                 os.system(f'pct start {id_attacker}')
 
         for id_pentest in range(index_pentest, index_pentest+int(counter)):
-                print(f'Creating container {id_pentest}')
+                print(f' > Starting container {id_pentest} < ')
                 #print (f'pct start {id_pentest}')
                 os.system(f'pct start {id_pentest}')
 
-        user_ip = input ("Show IPs ? Y/N : ")
+        user_ip = input (" > Show IPs ? Y/N : ")
         show_ip(user_ip)
 
     elif option == "3":
-        print(f"Stopping {number} instances ...")
+        print(f" >> Stopping {number} instances ... << ")
         # Perform stop action here
 
         for id_attacker in range(index_attacker, index_attacker+int(counter)):
-                print(f'Stopping container {id_attacker}')
+                print(f' > Stopping container {id_attacker} < ')
                 #print (f'pct stop {id_attacker}')
                 os.system(f'pct stop {id_attacker}')
 
         for id_pentest in range(index_pentest, index_pentest+int(counter)):
-                print(f'Stopping container {id_pentest}')
+                print(f' > Stopping container {id_pentest} < ')
                 #print (f'pct stop {id_pentest}')
                 os.system(f'pct stop {id_pentest}')
 
     elif option == "4":
-        print(f"Destroying {number} instances ...")
+        print(f" >> Destroying {number} instances ... << ")
         # Perform destroy action here
 
         for id_attacker in range(index_attacker, index_attacker+int(counter)):
-                print(f'Destroying container {id_attacker}')
+                print(f' > Destroying container {id_attacker} < ')
                 #print (f'pct destroy {id_attacker}')
+                os.system(f'pct stop {id_attacker}')
                 os.system(f'pct destroy {id_attacker}')
 
         for id_pentest in range(index_pentest, index_pentest+int(counter)):
-                print(f'Destroying container {id_pentest}')
+                print(f' > Destroying container {id_pentest} < ')
                 #print (f'pct destroy {id_pentest}')
+                os.system(f'pct stop {id_pentest}')
                 os.system(f'pct destroy {id_pentest}')
                 
     elif option == "5":
         # Showing IPs on menu if it didn't work properly on the start
-        print('Loading IPs')
-        print(f"Username : root ; Password : Pa$$w0rd")
+        print(' >>> Loading IPs <<< ')
+        #print(f"[ Username : root ; Password : Pa$$w0rd ]")
         output = os.popen('lxc-ls -f').read()
         pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
         matches = re.findall(pattern, output)
         for match in matches:
             container_name, ip_address = match
-            print(f"Name: {container_name}, IP Address: {ip_address}")
+            print(f"[Name] : {container_name} [IP Address] : {ip_address}")
         
     else:
       print("Invalid option!")
@@ -458,16 +464,32 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
 #Function to show the IPs of the new containers and the login
 def show_ip(ip):
     if ip == "Y":
-        print('Loading IPs')
-        print(f"Username : root ; Password : Pa$$w0rd")
+        print(' >>> Loading IPs <<< ')
+        #print(f"[ Username : root ; Password : Pa$$w0rd ]")
         output = os.popen('lxc-ls -f').read()
         pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
         matches = re.findall(pattern, output)
         for match in matches:
             container_name, ip_address = match
-            print(f"Name: {container_name}, IP Address: {ip_address}")
+            print(f"[Name] : {container_name} [IP Address] : {ip_address}")
     if ip == "N":
         print('Alright sure')
+
+def start_after_create(option):
+    if option == "Y":
+      print (' >> Starting << ')
+      
+      for id_attacker in range(index_attacker, index_attacker+int(counter)):
+        print(f' > Starting container {id_attacker} < ')
+        #print (f'pct start {id_attacker}')
+        os.system(f'pct start {id_attacker}')
+      for id_pentest in range(index_pentest, index_pentest+int(counter)):
+        print(f' > Starting container {id_pentest} < ')
+        #print (f'pct start {id_pentest}')
+        os.system(f'pct start {id_pentest}')
+      
+      if option == "N":
+        print(' > You can also start them with the option 2 of the menu < ')
 
 #Execution of the main function
 perform_action(user_option,user_number,attacker,pentest,index_attacker,index_pentest,counter)
@@ -513,14 +535,12 @@ Once they are stoped and we no longer need them, we can destroy the containers
 
 ![image-20230607225702670](assets/image-20230607225702670.png)
 
-
+A 5th option was also added to display the IP's and login of started containers, if missed during the start command.
 
 # Possible Upgrades
 
-This was designed to a max 3 instances demo, if we want to scale to a 20 student class some changes need to be done on the wrapper script and on the local-lvm storage.
+This was designed to a max 3 instances demo, if we want to scale to a 20 student class some changes need to be done on the local-lvm storage.
 
-For the script, the loop need to be improved so he can take the variable of the number of instances and increment it everytime he creates a new container, until it reaches the desired max instances.
-
-Also a more dynamic script, ask if we want to start the containers after creating them.
+For the script, it can technically scale to whatever the user wants since its loops and variables that are doing the work on Proxmox. Some changes could be made to make it more dynamic, like better options, some options repeat or show when they aren't needed (Example : If you Select 5 to Show IP's it still asks the instances, not needed for that command).
 
 For the local-lvm storage, it would be best to create better template containers, that take less space than 4.29GB and to give more storage to the proxmox VM.
