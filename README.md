@@ -538,7 +538,7 @@ To stop we just select 3
 
 Once they are stoped and we no longer need them, we can destroy the containers, we can also destroy them if they are running
 
-![image-20230615100835783](../../../../AppData/Roaming/Typora/typora-user-images/image-20230615100835783.png)
+![image-20230615100835783](assets/image-20230615100835783.png)
 
 
 
@@ -551,3 +551,4 @@ This was designed to a max 3 instances demo, if we want to scale to a 20 student
 For the script, it can technically scale to whatever the user wants since its loops and variables that are doing the work on Proxmox. Some changes could be made to make it more dynamic, like better options, some options repeat or show when they aren't needed (Example : If you Select 5 to Show IP's it still asks the instances, not needed for that command).
 
 For the local-lvm storage, it would be best to create better template containers, that take less space than 4.29GB and to give more storage to the proxmox VM.
+
