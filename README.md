@@ -335,6 +335,21 @@ Using the command : `ansible-playbook playbook-pentest.yaml -i inventory.cfg`
 >
 > Templates will take slightly less space on the lvm-local data.
 
+## Change the templates
+
+> If we want to add more features or change the templates, we can do so on the playbooks
+>
+> Here's an example for a new installation
+
+SO we want to add "cowsay" to our templates, we just add the following in each playbook
+
+```yaml
+    - name: install cowsay
+      apt:
+        name: cowsay
+        state: latest
+```
+
 ## Wrapper LXC Script
 
 > Python was used because of personal preference, since bash is less used
