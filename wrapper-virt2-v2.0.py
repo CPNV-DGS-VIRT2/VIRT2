@@ -89,7 +89,7 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
     elif option == "5":
         # Showing IPs on menu if it didn't work properly on the start
         print(' >>> Loading IPs <<< ')
-        #print(f"[ Username : root ; Password : Pa$$w0rd ]")
+        print(f"[ Username : root ; Password : Pa$$w0rd ]")
         output = os.popen('lxc-ls -f').read()
         pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
         matches = re.findall(pattern, output)
