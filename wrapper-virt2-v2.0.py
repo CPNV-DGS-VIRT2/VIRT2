@@ -36,6 +36,8 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
         # Start after create feature
         user_option = input (" > Start created containers ? Y/N : ")
         start_after_create(user_option)
+        user_ip = input (" > Show IPs ? Y/N : ")
+        show_ip(user_ip)
 
     elif option == "2":
         print(f" >> Starting {number} instances ... << ")
