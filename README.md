@@ -399,6 +399,8 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
         # Start after create feature
         user_option = input (" > Start created containers ? Y/N : ")
         start_after_create(user_option)
+        user_ip = input (" > Show IPs ? Y/N : ")
+        show_ip(user_ip)
 
     elif option == "2":
         print(f" >> Starting {number} instances ... << ")
@@ -450,7 +452,7 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
     elif option == "5":
         # Showing IPs on menu if it didn't work properly on the start
         print(' >>> Loading IPs <<< ')
-        #print(f"[ Username : root ; Password : Pa$$w0rd ]")
+        print(f"[ Username : root ; Password : Pa$$w0rd ]")
         output = os.popen('lxc-ls -f').read()
         pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
         matches = re.findall(pattern, output)
@@ -465,7 +467,7 @@ def perform_action(option,number,attacker,pentest,index_attacker,index_pentest,c
 def show_ip(ip):
     if ip == "Y":
         print(' >>> Loading IPs <<< ')
-        #print(f"[ Username : root ; Password : Pa$$w0rd ]")
+        print(f"[ Username : root ; Password : Pa$$w0rd ]")
         output = os.popen('lxc-ls -f').read()
         pattern = r"(\S+)\s+RUNNING\s+\S+\s+-\s+(\S+)"
         matches = re.findall(pattern, output)
@@ -493,12 +495,11 @@ def start_after_create(option):
 
 #Execution of the main function
 perform_action(user_option,user_number,attacker,pentest,index_attacker,index_pentest,counter)
-
 ```
 
 The script will guide you for most steps, here's a basic tutorial on how to use it.
 
-The pricipal functions are :
+The principal functions are :
 
 - Create
 - Start
@@ -513,27 +514,33 @@ You can launch it from the following command : `python3 wrapper-virt2.py`
 
 It will prompt witch option you want
 
-![image-20230607225327282](assets/image-20230607225327282.png)
+![image-20230615100436809](assets/image-20230615100436809.png)
 
 Here we select, option 1 ; create and 1 instance
 
-![image-20230607225441104](assets/image-20230607225441104.png)
+![image-20230615100531495](assets/image-20230615100531495.png)
 
-Once they are created, we can start them
+Once they are created, we can start them directly from the create command or with the 2nd option, start
 
-![image-20230607225525774](assets/image-20230607225525774.png)
+![image-20230615100541606](assets/image-20230615100541606.png)
+
+
 
 It will ask to show the IPs of started containers
 
-![image-20230607225557680](assets/image-20230607225557680.png)
+![image-20230615100634899](assets/image-20230615100634899.png)
 
 To stop we just select 3
 
-![image-20230607225624169](assets/image-20230607225624169.png)
+![image-20230615100756398](assets/image-20230615100756398.png)
 
-Once they are stoped and we no longer need them, we can destroy the containers
 
-![image-20230607225702670](assets/image-20230607225702670.png)
+
+Once they are stoped and we no longer need them, we can destroy the containers, we can also destroy them if they are running
+
+![image-20230615100835783](../../../../AppData/Roaming/Typora/typora-user-images/image-20230615100835783.png)
+
+
 
 A 5th option was also added to display the IP's and login of started containers, if missed during the start command.
 
