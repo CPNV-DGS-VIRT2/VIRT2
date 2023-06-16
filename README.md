@@ -10,6 +10,8 @@ Here's how the GitHub is organized
 
 ```
 .\README.md - This document
+.\README-Complete.md - README + Wiki on the same MD File
+
 .\wrapper-virt2.py - Wrapper script to execute in the proxmox VM
 
 .\ansible\ - Contains the playbooks and inventory files for each container
