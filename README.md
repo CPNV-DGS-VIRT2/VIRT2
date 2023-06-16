@@ -1,3 +1,5 @@
+The goal of this project was to manage containers with simple commands while being upgradable and scalable to a 20 student class.
+
 ## Deliverable
 
 Documentation, scripts on GitHub : https://github.com/CPNV-DGS-VIRT2/VIRT2
