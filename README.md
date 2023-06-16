@@ -2,6 +2,8 @@
 
 Documentation, scripts on GitHub : https://github.com/CPNV-DGS-VIRT2/VIRT2
 
+Wiki : https://github.com/CPNV-DGS-VIRT2/VIRT2/wiki
+
 ### Github
 
 Here's how the GitHub is organized
